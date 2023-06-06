@@ -1,0 +1,92 @@
+//prob No 3
+
+#include <bits/stdc++.h> 
+vector<int> nextPermutation(vector<int> &permutation, int n)
+{
+    //  Write your code here.
+     int idx=-1;
+    for(int i=n-2;i>=0;i--){
+        if(permutation[i]<permutation[i+1]){
+            idx = i;
+            break;
+        }
+    }
+    if (idx == -1) {
+        reverse(permutation.begin(), permutation.end());
+        return permutation;
+    }
+
+    for(int i=n-1;i>0;i--){
+        if (permutation[i] > permutation[idx]) {
+            swap(permutation[i], permutation[idx]);
+            break;
+        }
+    }
+    reverse(permutation.begin()+idx+1,permutation.end());
+    return permutation;
+}
+
+
+
+//prob No 4
+
+#include <bits/stdc++.h> 
+long long maxSubarraySum(int arr[], int n)
+{
+    /*
+        Don't write main().
+        Don't read input, it is passed as function argument.    
+        No need to print anything.
+        Taking input and printing output is handled automatically.
+    */
+    long long currsum = 0;long long maxsum = -1e9;
+    for(int i=0;i<n;i++){
+        currsum += arr[i];
+        if(currsum<0) currsum=0;
+        if(currsum>maxsum) maxsum = currsum;
+        
+    }
+    return maxsum;
+}
+
+
+
+//prob No 5
+
+#include <bits/stdc++.h> 
+void sort012(int *arr, int n)
+{
+   //   Write your code here
+   int low = 0;
+   int mid = 0;
+   int high = n-1;
+   for(int i=0;i<n;i++){
+      if(arr[mid]==0){
+         swap(arr[mid],arr[low]);
+         mid++;
+         low++;
+      }
+      else if(arr[mid]==1){
+         mid++;
+      }
+      else{
+         swap(arr[mid],arr[high]);
+         high--;
+      }
+   }
+}
+
+
+
+// prob No 6
+
+#include <bits/stdc++.h> 
+int maximumProfit(vector<int> &prices){
+    // Write your code here.
+    int n = prices.size();int p=prices[0];int maxi = -1;
+    for(int i=0;i<n;i++){
+        if(prices[i]<p) p= prices[i];
+        maxi = max(maxi,prices[i]-p);
+    }
+    return maxi;
+}
