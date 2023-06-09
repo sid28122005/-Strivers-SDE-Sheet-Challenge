@@ -1,0 +1,185 @@
+//prob 7
+
+#include <bits/stdc++.h>
+
+void rotateMatrix(vector<vector<int>> &mat, int n, int m)
+{
+    // Write your code here
+     int left = 0 , right = m-1 , top  = 0 ,bottom = n-1;
+
+    while(left < right && top < bottom ){
+        int temp = mat[top][left];
+        for(int col = left+1; col <= right; col++){
+            int k = mat[top][col];
+            mat[top][col] = temp;
+            temp = k;
+        }
+        top++;
+
+        for(int row = top; row <= bottom; row++){
+            int k = mat[row][right];
+            mat[row][right] = temp;
+            temp = k;
+        }
+        right--;
+
+        for(int col = right; col >= left; col--){
+            int k = mat[bottom][col];
+            mat[bottom][col] = temp;
+            temp = k;
+        }
+        bottom--;
+
+        for(int row = bottom; row >= top; row--){
+            int k = mat[row][left];
+            mat[row][left] = temp;
+            temp = k;
+        }
+        left++;
+
+        mat[top-1][left-1] = temp;
+    }
+}
+
+
+//prob 8
+#include <bits/stdc++.h> 
+/*
+
+    intervals[i][0] = start point of i'th interval
+    intervals[i][1] = finish point of i'th interval
+
+*/
+
+vector<vector<int>> mergeIntervals(vector<vector<int>> &intervals)
+{
+    // Write your code here.
+    vector<vector<int>>ans;
+    int n = intervals.size();
+    sort(intervals.begin(),intervals.end());
+    for(int i=0;i<n;i++){
+        if(ans.empty() || intervals[i][0] > ans.back()[1]){
+            ans.push_back(intervals[i]);
+        }
+        else {
+            ans.back()[1] = max(ans.back()[1], intervals[i][1]);
+        }
+    }
+    return ans;
+}
+
+
+//prob 9
+#include <bits/stdc++.h>
+
+vector<int> ninjaAndSortedArrays(vector<int>& arr1, vector<int>& arr2, int m, int n) {
+	// Write your code here.
+	vector<int>v;
+    int left = 0;
+    int right = 0;
+
+    while (left < m && right < n) {
+        if (arr1[left] <= arr2[right]) {
+            v.push_back(arr1[left]);
+            left++;
+        }
+        else {
+            v.push_back(arr2[right]);
+            right++;
+        }
+    }
+
+    while (left < m) {
+        v.push_back(arr1[left++]);
+    }
+
+    while (right < n) {
+        v.push_back(arr2[right++]);
+    }
+	return v;
+}
+
+
+//prob 10
+#include <bits/stdc++.h>
+
+int findDuplicate(vector<int> &arr, int n){
+	// Write your code here.
+	int slow = arr[0];
+	int fast = arr[0];
+
+	do{
+		slow = arr[slow];
+		fast = arr[arr[fast]];
+	}while(slow!=fast);
+	fast = arr[0];
+
+	while(slow!=fast){
+		slow = arr[slow];
+		fast = arr[fast];
+	}
+	return slow;
+}
+
+
+//prob 11
+#include <bits/stdc++.h>
+using namespace std;
+pair<int,int> missingAndRepeating(vector<int> &arr, int n)
+{
+	// Write your code here 
+	int xr = 0;
+
+    for (int i = 0; i < n; i++) {
+        xr = xr ^ arr[i];
+        xr = xr ^ (i + 1);
+    }
+
+    int number = (xr & ~(xr - 1));
+
+    int zero = 0;
+    int one = 0;
+    for (int i = 0; i < n; i++) {
+
+        if ((arr[i] & number) != 0) {
+            one = one ^ arr[i];
+        }
+
+        else {
+            zero = zero ^ arr[i];
+        }
+    }
+
+    for (int i = 1; i <= n; i++) {
+
+        if ((i & number) != 0) {
+            one = one ^ i;
+        }
+
+        else {
+            zero = zero ^ i;
+        }
+    }
+
+    int cnt = 0;
+    for (int i = 0; i < n; i++) {
+        if (arr[i] == zero) cnt++;
+    }
+
+    if (cnt == 2) return {one, zero};
+    return {zero, one};
+}
+
+
+//prob 12
+#include <bits/stdc++.h> 
+long long getInversions(long long *arr, int n){
+    // Write your code here.
+    long long cnt = 0;
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (arr[i] > arr[j]) cnt++;
+        }
+    }
+    return cnt;
+}
