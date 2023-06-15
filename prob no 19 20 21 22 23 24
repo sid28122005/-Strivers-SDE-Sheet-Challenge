@@ -85,3 +85,71 @@ int lengthOfLongestConsecutiveSequence(vector<int> &arr, int n) {
     }
     return ans;
 }
+
+
+
+//prob 22
+
+#include <bits/stdc++.h>
+
+int LongestSubsetWithZeroSum(vector < int > arr) {
+
+  // Write your code here
+  int n = arr.size();
+  int maxi = 0;
+  for(int i=0;i<n;i++){
+    int sum=0;
+    for(int j=i;j<n;j++){
+      sum+=arr[j];
+      if(sum==0){
+        maxi = max(maxi,j-i+1);
+      }
+    }
+  }
+  return maxi;
+}
+
+
+//prob 23
+
+#include <bits/stdc++.h>
+
+int subarraysXor(vector<int> &arr, int x)
+{
+    //    Write your code here.
+    int n = arr.size();
+    int xr = 0;
+    map<int, int> mpp;
+    mpp[xr]++;
+    int cnt = 0;
+    for (int i = 0; i < n; i++) {
+        xr = xr ^ arr[i];
+        int k = xr ^ x;
+        cnt += mpp[k];
+        mpp[xr]++;
+    }
+    return cnt;
+}
+
+
+
+//prob 24
+
+#include <bits/stdc++.h> 
+int uniqueSubstrings(string input)
+{
+    //Write your code here
+    vector<int>v(256,-1);
+    int l=0,r=0;
+    int n = input.size();
+    int len=0;
+    while(r<n){
+        if(v[input[r]]!=-1) 
+            l = max(v[input[r]]+1,l);
+        
+        v[input[r]]=r;
+        len = max(len,r-l+1);
+        r++;
+    }
+    return len;
+}
