@@ -72,3 +72,185 @@ long long ayushGivesNinjatest(int n, int m, vector<int> time)
     }
     return ans;
 }
+
+//68
+
+#include <bits/stdc++.h> 
+
+bool isFeasible(vector<int>&positions,int n,int c,int mid){
+	int pos=positions[0], ele=1;
+	for(int i=0;i<n;i++){
+		if(positions[i]-pos>=mid){
+			pos=positions[i];
+			ele++;
+			if(ele==c){
+				return true;
+			}
+		}
+	}
+	return false;
+}
+int chessTournament(vector<int> positions , int n ,  int c){
+	// Write your code here
+	sort(positions.begin(),positions.end());
+	long long res=-1;
+	long long l=0;
+	long long h=positions[n-1]-positions[0];
+	while(l<=h){
+		long long mid = (l+h)>>1;
+		if(isFeasible(positions,n,c,mid)){
+			res = mid;
+			l = mid+1;
+		}
+		else h=mid-1;
+	}
+	return res;
+}
+
+//69
+
+#include <bits/stdc++.h> 
+
+void heapify(vector<int>&heap,int n,int i){
+    int maxidx = i;
+    int l = 2 * i + 1;
+    int r = 2 * i + 2;
+    if(l<n && heap[l]>heap[maxidx]) maxidx=l;
+    if(r<n && heap[r]>heap[maxidx]) maxidx=r;
+    if(maxidx!=i){
+        swap(heap[i],heap[maxidx]);
+        heapify(heap,maxidx);
+    }
+}
+
+void heapsort(vector<int>&heap){
+    int n=heap.size();
+    for(int i=n/2-1; i>=0; i--){
+        heapify(heap,n,i);
+    }
+    for(int i=n-1; i>0; i--){
+        swap(heap[0],heap[i]);
+        heapify(heap,i,0);
+    }
+}
+void insert(vector<int>&heap,int x){
+    heap.push_back(x);
+    int idx = heap.size()-1;
+
+}
+
+vector<int> minHeap(int n, vector<vector<int>>& q) {
+    // Write your code here.
+    vector<int>heap;
+    vector<int>ans;
+    for(int i=0;i<q.size();i++){
+        if(q[i][0]==0){
+            insert(heap,q[i][1]);
+        }
+        else{
+            ans.push_back(removetop(heap));
+        }
+    }
+    return ans;
+}
+
+//70
+
+#include<bits/stdc++.h>
+vector<int> kthSmallLarge(vector<int> &arr, int n, int k)
+{
+	// Write your code here.
+	sort(arr.begin(),arr.end());
+	return {arr[k-1],arr[n-k]};
+}
+
+//71
+
+#include <bits/stdc++.h> 
+vector<int> kMaxSumCombination(vector<int> &a, vector<int> &b, int n, int k){
+	// Write your code here.
+	priority_queue<int>pqa;
+	vector<int>v(k);
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			pqa.push(a[i]+b[j]);
+		}
+	}
+	for(int i=0;i<k;i++){
+		v[i] = pqa.top();
+		pqa.pop();
+	}
+	return v;
+}
+
+//72
+
+#include<bits/stdc++.h>
+
+void findMedian(int *arr, int n)
+{
+    priority_queue<int,vector<int>,greater<int>>pqmin;
+    priority_queue<int>pqmax;
+    for(int i=0;i<n;i++){
+        // pqmin==pqmax;
+        if(pqmax.empty() || pqmax.top()>=arr[i]) pqmax.push(arr[i]);
+        else pqmin.push(arr[i]);
+
+        if(pqmax.size() > pqmin.size()+1){
+            pqmin.push(pqmax.top());
+            pqmax.pop();
+        }
+
+        else if(pqmax.size() < pqmin.size()){
+            pqmax.push(pqmin.top());
+            pqmin.pop();
+        }
+
+        if(pqmin.size() < pqmax.size()) cout<<pqmax.top()<<" ";
+        else if(pqmin.size() > pqmax.size()) cout<<pqmin.top()<<" ";
+        else cout<<(pqmin.top()+pqmax.top())/2<<" ";
+    }  
+}
+
+//73
+
+#include <bits/stdc++.h> 
+vector<int> mergeKSortedArrays(vector<vector<int>>&kArrays, int k)
+{
+    // Write your code here. 
+    vector<int>ans;
+    priority_queue<int,vector<int>,greater<int>>p;
+    for(auto i:kArrays){
+        for(auto j:i){
+            p.push(j);
+        }
+    }
+    while(!p.empty()){
+        ans.push_back(p.top());
+        p.pop();
+    }
+    return ans;
+}
+
+//74
+
+#include <bits/stdc++.h> 
+vector<int> KMostFrequent(int n, int k, vector<int> &arr)
+{
+    // Write your code here.
+    vector<int>ans;
+    map<int,int>freq;
+    for(int i=0;i<n;i++){
+        freq[arr[i]]++;
+    }
+    priority_queue<pair<int,int>>pq;
+    for(auto i:freq){
+        pq.push({i.second,i.first});
+    }
+    for(int i=1;i<=k;i++){
+        ans.push_back(pq.top().second);
+        pq.pop();
+    }
+    sort(ans.begin(),ans.end());
+    return ans;
+}
