@@ -1,0 +1,252 @@
+//82
+
+#include <bits/stdc++.h> 
+// Stack class.
+class Stack {
+private:
+    int *arr;
+    int tail;
+    int maxsize;
+    
+public:
+    
+    Stack(int capacity) {
+        // Write your code here.
+        arr = new int[capacity];
+        tail=0;
+        maxsize = capacity;
+    }
+
+    void push(int num) {
+        // Write your code here.
+        if(tail!=maxsize){
+            arr[tail]=num;
+            tail++;
+        }
+    }
+
+    int pop() {
+        // Write your code here.
+        if(tail!=0){
+            tail--;
+            return arr[tail];
+        }
+        return -1;
+    }
+    
+    int top() {
+        // Write your code here.
+        return (tail!=0)? (arr[tail-1]):(-1);
+    }
+    
+    int isEmpty() {
+        // Write your code here.
+         return (tail == 0)?(1):(0);
+    }
+    
+    int isFull() {
+        // Write your code here.
+       return (tail == maxsize);
+    }
+    
+};
+
+//83
+
+#include <bits/stdc++.h> 
+
+class Queue {
+    int *arr;
+    int top;
+    int back;
+    int n;
+public:
+    Queue() {
+        // Implement the Constructor
+        n=10001;
+        arr = new int[n];
+        top = 0;
+        back = 0;
+    }
+
+    /*----------------- Public Functions of Queue -----------------*/
+
+    bool isEmpty() {
+        // Implement the isEmpty() function
+        if(top==back){
+            return true;
+        }
+        return false;
+    }
+
+    void enqueue(int data) {
+        // Implement the enqueue() function
+        if(back!=n){
+            arr[back++]=data;
+        }
+    }
+
+    int dequeue() {
+        // Implement the dequeue() function
+        if(top==back){
+            return -1;
+        }
+        else{
+            int temp = arr[top++];
+            if(top==back){
+                top=0;
+                back=0;
+            }
+            return temp;
+        }
+    }
+
+    int front() {
+        // Implement the front() function
+        if(top==back)
+        return -1;
+        return arr[top];
+    }
+};
+
+//84
+
+#include <bits/stdc++.h> 
+class Stack {
+	// Define the data members.
+    int N;
+    queue<int>q1;
+    queue<int>q2;
+   public:
+    Stack() {
+        // Implement the Constructor.
+        N=0;
+    }
+
+    /*----------------- Public Functions of Stack -----------------*/
+
+    int getSize() {
+        // Implement the getSize() function.
+        return N;
+    }
+
+    bool isEmpty() {
+        // Implement the isEmpty() function.
+        if(N==0) return true;
+        else return false;
+    }
+
+    void push(int element) {
+        // Implement the push() function.
+        q2.push(element);
+        N++;
+        while(!q1.empty()){
+            q2.push(q1.front());
+            q1.pop();
+        }
+        swap(q1,q2);
+    }
+
+    int pop() {
+        // Implement the pop() function.
+        if(!q1.empty()){
+            int val = q1.front();
+            q1.pop();
+            N--;
+            return val;
+        }
+        else{
+            return -1;
+        }
+    }
+
+    int top() {
+        // Implement the top() function.
+        if(!q1.empty())
+        return q1.front();
+        else return -1;
+    }
+};
+
+//85
+
+#include<stack>
+class Queue {
+   // Make 2 stacks ans size
+   stack<int>s1;
+   stack<int>s2;
+   int size;
+   
+   public:
+   Queue() {
+       // Initialize your size structure here.
+       size = 0;
+   }
+
+   void enQueue(int val) {
+       // Enque or push operation
+
+       // Step 1 : Put all the elements from s1 to  s2
+       while(!s1.empty())
+       {
+           int val = s1.top();
+           s1.pop();
+           s2.push(val);
+       }
+
+       // Step 2 : Put the lement is s1
+       s1.push(val);
+
+
+       // Step 3 : Put all the elements from s2 to  s1
+       while(!s2.empty())
+       {
+           int val = s2.top();
+           s2.pop();
+           s1.push(val);
+       }
+
+       size++;
+
+   }
+
+   int deQueue() {
+       // Dequeue or pop opeation
+
+       if(s1.empty())
+       {
+           return -1;
+       }
+       else
+       {
+           int val = s1.top();
+           s1.pop();
+           size--;
+           return val;
+       }
+   }
+
+   int peek() {
+       // Check size
+       if(s1.empty())
+       {
+           return -1;
+       }
+       else
+       {
+           int val = s1.top();
+           return val;
+       }
+   }
+
+   bool isEmpty() {
+       if(s1.empty())
+       {
+           return true;
+       }
+       else
+       {
+           return false;
+       }
+   }
+};
